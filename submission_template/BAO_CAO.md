@@ -1,6 +1,6 @@
 # Báo cáo lab: chọn tracker cho 5 video
 
-**Nhóm:** khuynmin. **Thành viên:** Trần Ngọc Khuyến; Đoàn Quang Minh.
+**Nhóm:** khuynmin. **Thành viên:** Trần Ngọc Khuyến (MSV: 2A202602682); Đoàn Quang Minh (MSV: 2A202602711).
 
 Detector cố định `yolo26n.pt`, 640 px, lớp người; Re-ID `osnet_x0_25_msmt17.pt`. Chạy CPU trong `.venv`. `conf` và `iou` là ngưỡng tin cậy và NMS của detector, không phải ngưỡng ghép ID.
 
