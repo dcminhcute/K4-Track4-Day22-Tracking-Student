@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -105,6 +106,16 @@ def run_trackeval(trackeval_root: Path, run_name: str, benchmark: str, split: st
     """
     cmd = [
         sys.executable,
+        "-c",
+        (
+            "import runpy, sys; "
+            "sys.path.insert(0, sys.argv.pop(1)); "
+            "from evaluate_practice import _patch_numpy_aliases; "
+            "_patch_numpy_aliases(); "
+            "script = sys.argv.pop(1); sys.argv[0] = script; "
+            "runpy.run_path(script, run_name='__main__')"
+        ),
+        str(Path(__file__).resolve().parent),
         str(trackeval_root / "scripts" / "run_mot_challenge.py"),
         "--GT_FOLDER", str(trackeval_root / "data" / "gt" / "mot_challenge"),
         "--TRACKERS_FOLDER", str(trackeval_root / "data" / "trackers" / "mot_challenge"),
@@ -116,7 +127,8 @@ def run_trackeval(trackeval_root: Path, run_name: str, benchmark: str, split: st
         "--USE_PARALLEL", "False",
     ]
     print("Đang chấm video luyện:\n  " + " ".join(cmd) + "\n")
-    subprocess.run(cmd, check=True)
+    # Chấm và lưu biểu đồ không cần cửa sổ giao diện hoặc thư viện Tcl/Tk.
+    subprocess.run(cmd, check=True, env={**os.environ, "MPLBACKEND": "Agg"})
 
 
 def main() -> None:

@@ -1,4 +1,5 @@
 lab_data/
+.venv/
 runs/
 TrackEval/
 *.pt
